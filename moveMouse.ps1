@@ -3,14 +3,14 @@ Add-Type -AssemblyName System.Windows.Forms
 
 function Keep-Alive {
     param(
-        # ?ŸŠ÷ˆÚ??C…•½•ûŒü•ÎˆÚ“IÅ‘å???
+        # Maximum absolute offset in the horizontal (X) direction for each random mouse movement
         [int]$HorizontalMaxOffset = 10,
-        # ?ŸŠ÷ˆÚ??C‚’¼•ûŒü•ÎˆÚ“IÅ‘å???
+        # Maximum absolute offset in the vertical (Y) direction for each random mouse movement
         [int]$VerticalMaxOffset   = 10,
         
-        # ?ŸˆÚ?‘l?@C‰ºˆêŸˆÚ?“IÅ’Z?Šu(•b)
+        # Minimum number of seconds to wait between movements
         [int]$MinIntervalSeconds  = 30,
-        # ?ŸˆÚ?‘l?@C‰ºˆêŸˆÚ?“IÅ??Šu(•b)
+        # Maximum number of seconds to wait between movements
         [int]$MaxIntervalSeconds  = 90
     )
 
@@ -19,27 +19,26 @@ function Keep-Alive {
     Write-Host "ˆÚ??Šuä—?: $MinIntervalSeconds - $MaxIntervalSeconds •b"
 
     while ($true) {
-        # æ“¾“–‘O‘l?ˆÊ’u
+        # Get the current cursor position
         $pos = [System.Windows.Forms.Cursor]::Position
         $x   = $pos.X
         $y   = $pos.Y
 
-        # ?¶Š÷•ÎˆÚ—Ê (’ˆÓ: Get-Random -Minimum X -Maximum Y æ?ä—?¥ [X, Y-1])
+        # Generate random offset values
         $dx = Get-Random -Minimum (-1 * $HorizontalMaxOffset) -Maximum ($HorizontalMaxOffset + 1)
         $dy = Get-Random -Minimum (-1 * $VerticalMaxOffset)   -Maximum ($VerticalMaxOffset + 1)
 
-        # ?Z›óˆÚ?“V¿?
+        # Calculate the new coordinates and move the cursor
         $newX = $x + $dx
         $newY = $y + $dy
         [System.Windows.Forms.Cursor]::Position = New-Object System.Drawing.Point($newX, $newY)
 
-        # Š÷™r’è‰ºŸˆÚ?‘O“I‹x–°??
+        # Randomly determine the wait time before the next move
         $sleepSeconds = Get-Random -Minimum $MinIntervalSeconds -Maximum ($MaxIntervalSeconds + 1)
         Write-Host "ˆÚ?“ ($newX, $newY) - ‰ºŸˆÚ?«İ $sleepSeconds •b@"
         Start-Sleep -Seconds $sleepSeconds
     }
 }
 
-# ”@‰Ê‘z’¼Ú?s”Ÿ”C‰ÂæÁˆÈ‰º’?F
 Keep-Alive -HorizontalMaxOffset 10 -VerticalMaxOffset 10 -MinIntervalSeconds 30 -MaxIntervalSeconds 90
 
