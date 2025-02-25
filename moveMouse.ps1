@@ -14,9 +14,9 @@ function Keep-Alive {
         [int]$MaxIntervalSeconds  = 90
     )
 
-    Write-Host "?nŠ÷ˆÚ?‘l?..."
-    Write-Host "…•½•ÎˆÚä—?: }$HorizontalMaxOffset, ‚’¼•ÎˆÚä—?: }$VerticalMaxOffset"
-    Write-Host "ˆÚ??Šuä—?: $MinIntervalSeconds - $MaxIntervalSeconds •b"
+    Write-Host "Starting random mouse movements..."
+    Write-Host "Horizontal offset range: }$HorizontalMaxOffset, Vertical offset range: }$VerticalMaxOffset"
+    Write-Host "Movement interval range: $MinIntervalSeconds - $MaxIntervalSeconds seconds"
 
     while ($true) {
         # Get the current cursor position
@@ -35,7 +35,7 @@ function Keep-Alive {
 
         # Randomly determine the wait time before the next move
         $sleepSeconds = Get-Random -Minimum $MinIntervalSeconds -Maximum ($MaxIntervalSeconds + 1)
-        Write-Host "ˆÚ?“ ($newX, $newY) - ‰ºŸˆÚ?«İ $sleepSeconds •b@"
+        Write-Host "Moved to ($newX, $newY) - waiting $sleepSeconds seconds until the next move..."
         Start-Sleep -Seconds $sleepSeconds
     }
 }
